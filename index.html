@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#101216">
+<link rel="manifest" href="manifest.webmanifest">
+<title>STILL — my personal log</title>
+<style>
+:root{--bg:#101216;--panel:#171a20;--panel2:#1d2229;--line:#30343b;--text:#ece9e4;--muted:#9699a1;--blue:#7895b2;--blue2:#344a5d;--wine:#835363;--cream:#d9cfc2;--green:#84988b;--radius:22px}
+*{box-sizing:border-box}html{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif}body{margin:0;background:radial-gradient(ellipse at 85% 0%,#202630 0,transparent 34%),var(--bg);min-height:100vh;padding-bottom:100px;letter-spacing:.015em}
+button,input,select,textarea{font:inherit}button{cursor:pointer}
+.app{max-width:760px;margin:auto;padding:env(safe-area-inset-top) 18px 20px}
+.top{display:flex;justify-content:space-between;align-items:center;padding:24px 2px 18px}
+.brand{font-size:12px;letter-spacing:.34em;color:var(--muted)}.date{font-size:12px;color:var(--muted)}
+h1{font-weight:400;font-size:31px;letter-spacing:.04em;margin:8px 0 6px}.sub{color:var(--muted);font-size:13px;line-height:1.7}
+.hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#202b35,#172027 65%,#241b24);border:1px solid #303b46;border-radius:28px;padding:24px 22px;margin:22px 0 18px;min-height:190px}
+.hero:after{content:"";position:absolute;width:220px;height:220px;border:1px solid #7895b230;border-radius:50%;right:-55px;top:-52px;box-shadow:0 0 0 18px #7895b20b,0 0 0 38px #7895b208}
+.hero:before{content:"";position:absolute;width:125px;height:125px;border:1px solid #c2b3a72c;border-radius:50%;right:14px;top:0}
+.hero-label{font-size:10px;letter-spacing:.25em;color:#aab8c5}.hero-main{display:flex;align-items:flex-end;gap:9px;margin-top:20px;position:relative;z-index:1}.hero-number{font-size:49px;font-weight:300;letter-spacing:-.04em;line-height:1}.hero-unit{font-size:13px;color:#bac0c6;margin-bottom:7px}.hero-note{font-size:12px;color:#b3b7bc;margin-top:12px;position:relative;z-index:1}
+.hero-side{position:absolute;right:22px;bottom:25px;color:#8fa6b8;font-size:11px;letter-spacing:.12em;z-index:1}
+.tabs{display:flex;gap:6px;padding:5px;background:#171a20;border:1px solid #292d34;border-radius:16px;margin:18px 0 22px}
+.tab{flex:1;border:0;background:transparent;color:var(--muted);padding:11px 3px;border-radius:12px;font-size:12px}.tab.active{background:#2a3540;color:#e5e8e8}
+.section-head{display:flex;align-items:baseline;justify-content:space-between;margin:24px 2px 12px}.section-head h2{font-size:16px;font-weight:450;margin:0;letter-spacing:.05em}.eyebrow{font-size:10px;color:var(--muted);letter-spacing:.18em}
+.card{background:linear-gradient(145deg,#1a1e24,#171a20);border:1px solid #2c3037;border-radius:var(--radius);padding:17px;margin-bottom:12px}
+.metric-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.metric{padding:16px;background:#181c22;border:1px solid #2b3038;border-radius:19px}.metric .label{font-size:11px;color:var(--muted)}.metric .value{font-size:25px;font-weight:300;margin-top:10px}.metric .unit{font-size:11px;color:var(--muted);margin-left:3px}.metric .mini{font-size:11px;color:var(--blue);margin-top:8px}
+.quick-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.quick{border:1px solid #343a43;background:#1b2027;border-radius:18px;padding:14px 8px;color:var(--text);text-align:left;min-height:90px}.quick .symbol{font-size:19px;color:var(--blue);display:block;margin-bottom:12px}.quick .qtitle{font-size:12px}.quick .qsub{font-size:10px;color:var(--muted);margin-top:5px}
+.btn{border:1px solid #495766;background:#283642;color:#f2f0eb;border-radius:14px;padding:12px 16px;font-size:12px}.btn.secondary{background:transparent;border-color:#343a42;color:#c7c8ca}.btn.danger{border-color:#65404c;color:#d9a6b2;background:#2a1d23}.btn.full{width:100%}
+.list{display:flex;flex-direction:column;gap:8px}.entry{display:flex;align-items:center;gap:12px;padding:13px 14px;border:1px solid #2c3037;background:#191d23;border-radius:16px}.entry-icon{width:35px;height:35px;border-radius:12px;background:#26313b;color:#9cb3c7;display:grid;place-items:center;font-size:15px;flex-shrink:0}.entry-body{flex:1;min-width:0}.entry-title{font-size:13px;overflow-wrap:anywhere}.entry-meta{font-size:10px;color:var(--muted);margin-top:5px}.entry-value{font-size:12px;color:#c8cbd0;white-space:nowrap}.entry-del{background:none;border:0;color:#777e87;font-size:17px;padding:4px}
+canvas{width:100%;height:170px;display:block}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}.field{display:flex;flex-direction:column;gap:7px}.field.fullrow{grid-column:1/-1}.field label{font-size:11px;color:#b7bbc0}.field input,.field select,.field textarea{width:100%;background:#111419;color:var(--text);border:1px solid #353a43;border-radius:12px;padding:12px;outline:none;min-width:0}.field textarea{min-height:78px;resize:vertical}.field input:focus,.field select:focus,.field textarea:focus{border-color:#7895b2}.form-actions{display:flex;gap:9px;margin-top:14px}.empty{padding:24px 12px;text-align:center;color:#7e848d;font-size:12px;line-height:1.8}.hidden{display:none!important}
+.week-note{color:#d1ccc4;font-size:13px;line-height:1.8}.quote{font-family:Georgia,serif;font-style:italic;font-size:18px;color:#aab8c5;line-height:1.5}
+.bottomnav{position:fixed;z-index:10;bottom:0;left:0;right:0;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:#111419ed;backdrop-filter:blur(18px);border-top:1px solid #292d34;display:flex;justify-content:center}.bottominner{width:min(100%,700px);display:flex;gap:8px}.navbtn{flex:1;border:0;background:transparent;color:#828790;font-size:10px;padding:7px 2px}.navbtn .navicon{display:block;font-size:18px;margin-bottom:5px}.navbtn.active{color:#b9cddd}
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#303a44;border:1px solid #536475;color:#f2f0eb;border-radius:20px;padding:10px 15px;font-size:12px;z-index:30;display:none}
+@media(min-width:600px){.app{padding-left:26px;padding-right:26px}.hero{padding:29px 28px}.hero-number{font-size:56px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="top"><div class="brand">S T I L L</div><div class="date" id="today"></div></div>
+  <div id="view-home">
+    <div class="eyebrow">YOUR PERSONAL LOG</div>
+    <h1>今日の自分を、記録する。</h1>
+    <div class="sub">急がなくていい。変化を、少しずつ見つけよう。</div>
+    <div class="hero">
+      <div class="hero-label">LATEST WEIGHT / kg</div>
+      <div class="hero-main"><div class="hero-number" id="heroWeight">--.-</div><div class="hero-unit">kg</div></div>
+      <div class="hero-note" id="heroNote">記録は、あなたのペースで。</div>
+      <div class="hero-side">NO RUSH, JUST YOU.</div>
+    </div>
+    <div class="metric-grid">
+      <div class="metric"><div class="label">体重の記録</div><div class="value" id="weightCount">0<span class="unit">回</span></div><div class="mini">自分のペースで</div></div>
+      <div class="metric"><div class="label">今日の食事</div><div class="value" id="mealCount">0<span class="unit">件</span></div><div class="mini">食べたものを残す</div></div>
+    </div>
+    <div class="section-head"><h2>QUICK LOG</h2><span class="eyebrow">すぐに記録</span></div>
+    <div class="quick-grid">
+      <button class="quick" onclick="openForm('meal')"><span class="symbol">＋</span><span class="qtitle">食事</span><div class="qsub">MEAL</div></button>
+      <button class="quick" onclick="openForm('weight')"><span class="symbol">↗</span><span class="qtitle">体重・ウエスト</span><div class="qsub">BODY</div></button>
+      <button class="quick" onclick="openForm('exercise')"><span class="symbol">⌁</span><span class="qtitle">運動</span><div class="qsub">MOVEMENT</div></button>
+    </div>
+    <div class="section-head"><h2>今日のログ</h2><span class="eyebrow" id="todayCount">0 ENTRIES</span></div>
+    <div id="todayEntries" class="list"></div>
+    <div class="section-head"><h2>RECENT TREND</h2><span class="eyebrow">WEIGHT</span></div>
+    <div class="card"><canvas id="homeChart" width="700" height="220"></canvas><div class="sub" id="chartHint">体重を記録すると、ここに推移が表示されます。</div></div>
+    <div class="card"><div class="quote">“ progress, not perfection. ”</div><div class="sub" style="margin-top:8px">完璧じゃなくていい。自分の傾向を知るための記録。</div></div>
+  </div>
+
+  <div id="view-log" class="hidden">
+    <div class="eyebrow">YOUR DAILY DETAILS</div><h1>ログを残す。</h1><div class="sub">食事も、体の変化も、動いたことも。</div>
+    <div class="tabs"><button class="tab active" data-formtab="meal" onclick="openForm('meal')">食事</button><button class="tab" data-formtab="weight" onclick="openForm('weight')">体重・体型</button><button class="tab" data-formtab="exercise" onclick="openForm('exercise')">運動</button></div>
+    <div id="form-meal" class="card">
+      <div class="section-head" style="margin-top:0"><h2>MEAL NOTE</h2><span class="eyebrow">食事の記録</span></div>
+      <form id="mealForm"><div class="form-grid">
+        <div class="field"><label>日付</label><input name="date" type="date" required></div>
+        <div class="field"><label>タイミング</label><select name="type"><option>朝食</option><option>昼食</option><option>夕食</option><option>間食</option></select></div>
+        <div class="field fullrow"><label>食べたもの</label><input name="food" placeholder="例：ごはん、焼き鮭、味噌汁" required></div>
+        <div class="field"><label>カロリー（任意）</label><input name="calories" type="number" min="0" placeholder="kcal"></div>
+        <div class="field"><label>たんぱく質（任意）</label><input name="protein" type="number" min="0" step=".1" placeholder="g"></div>
+        <div class="field"><label>空腹感</label><select name="hunger"><option value="">選択しない</option><option>かなり空腹</option><option>少し空腹</option><option>ちょうどいい</option><option>お腹いっぱい</option></select></div>
+        <div class="field"><label>気分</label><select name="mood"><option value="">選択しない</option><option>満足</option><option>ふつう</option><option>疲れた</option><option>甘いものが欲しい</option></select></div>
+        <div class="field fullrow"><label>ひとことメモ（任意）</label><textarea name="note" placeholder="気づいたこと、気分など"></textarea></div>
+      </div><div class="form-actions"><button class="btn" type="submit">記録を保存</button><button class="btn secondary" type="reset">クリア</button></div></form>
+    </div>
+    <div id="form-weight" class="card hidden">
+      <div class="section-head" style="margin-top:0"><h2>BODY NOTE</h2><span class="eyebrow">体重・体型</span></div>
+      <form id="weightForm"><div class="form-grid">
+        <div class="field"><label>日付</label><input name="date" type="date" required></div>
+        <div class="field"><label>体重（kg）</label><input name="weight" type="number" min="20" max="300" step=".1" placeholder="48.0" required></div>
+        <div class="field"><label>ウエスト（cm・任意）</label><input name="waist" type="number" min="20" max="250" step=".1" placeholder="—"></div>
+        <div class="field"><label>タイミング</label><select name="timing"><option>朝</option><option>夜</option><option>ジムの日</option><option>その他</option></select></div>
+        <div class="field fullrow"><label>ひとことメモ（任意）</label><textarea name="note" placeholder="体調や気づいたこと"></textarea></div>
+      </div><div class="form-actions"><button class="btn" type="submit">記録を保存</button><button class="btn secondary" type="reset">クリア</button></div></form>
+    </div>
+    <div id="form-exercise" class="card hidden">
+      <div class="section-head" style="margin-top:0"><h2>MOVEMENT NOTE</h2><span class="eyebrow">運動の記録</span></div>
+      <form id="exerciseForm"><div class="form-grid">
+        <div class="field"><label>日付</label><input name="date" type="date" required></div>
+        <div class="field"><label>種類</label><select name="type"><option>ジム</option><option>筋トレ</option><option>有酸素運動</option><option>キックボクシング</option><option>散歩</option><option>ストレッチ</option><option>その他</option></select></div>
+        <div class="field"><label>時間（分）</label><input name="minutes" type="number" min="0" placeholder="30"></div>
+        <div class="field"><label>強度</label><select name="intensity"><option>軽め</option><option>ふつう</option><option>しっかり</option></select></div>
+        <div class="field fullrow"><label>ひとことメモ（任意）</label><textarea name="note" placeholder="できたこと、気分など"></textarea></div>
+      </div><div class="form-actions"><button class="btn" type="submit">記録を保存</button><button class="btn secondary" type="reset">クリア</button></div></form>
+    </div>
+    <div class="section-head"><h2>ALL LOGS</h2><span class="eyebrow">最新の記録から</span></div>
+    <div class="tabs"><button class="tab active" data-filter="all" onclick="setFilter('all')">すべて</button><button class="tab" data-filter="meal" onclick="setFilter('meal')">食事</button><button class="tab" data-filter="weight" onclick="setFilter('weight')">体型</button><button class="tab" data-filter="exercise" onclick="setFilter('exercise')">運動</button></div>
+    <div id="allEntries" class="list"></div>
+  </div>
+
+  <div id="view-insights" class="hidden">
+    <div class="eyebrow">PATTERNS, NOT JUDGEMENT</div><h1>変化を眺める。</h1><div class="sub">数字は評価じゃなく、自分を知るためのヒント。</div>
+    <div class="section-head"><h2>BODY TREND</h2><span class="eyebrow">WEIGHT / kg</span></div>
+    <div class="card"><canvas id="weightChart" width="700" height="240"></canvas><div class="sub" id="weightSummary"></div></div>
+    <div class="section-head"><h2>WAIST TREND</h2><span class="eyebrow">CM</span></div>
+    <div class="card"><canvas id="waistChart" width="700" height="220"></canvas><div class="sub" id="waistSummary"></div></div>
+    <div class="section-head"><h2>THIS WEEK</h2><span class="eyebrow">WEEKLY REVIEW</span></div>
+    <div class="card"><div class="metric-grid"><div class="metric"><div class="label">食事ログ</div><div class="value" id="weekMeals">0<span class="unit">件</span></div></div><div class="metric"><div class="label">運動ログ</div><div class="value" id="weekExercise">0<span class="unit">回</span></div></div></div>
+      <div class="field" style="margin-top:16px"><label>今週の気づき・よかったこと</label><textarea id="weeklyNote" placeholder="例：朝食を記録すると、間食との関係が見えてきた"></textarea></div><button class="btn full" style="margin-top:10px" onclick="saveWeekly()">振り返りを保存</button><div class="sub" id="weeklySaved" style="margin-top:10px"></div>
+    </div>
+    <div class="section-head"><h2>DATA & PRIVACY</h2><span class="eyebrow">YOUR RECORDS</span></div>
+    <div class="card"><div class="sub" style="margin-bottom:14px">記録はこの端末のブラウザ内に保存されます。ブラウザのデータを消す前にバックアップしてください。</div><div class="form-actions"><button class="btn" onclick="exportData()">データをバックアップ</button><label class="btn secondary" style="display:inline-flex;align-items:center">復元する<input id="importFile" type="file" accept="application/json" hidden onchange="importData(event)"></label></div></div>
+  </div>
+</div>
+<div class="bottomnav"><div class="bottominner">
+<button class="navbtn active" data-view="home" onclick="showView('home')"><span class="navicon">◌</span>HOME</button>
+<button class="navbtn" data-view="log" onclick="showView('log')"><span class="navicon">＋</span>LOG</button>
+<button class="navbtn" data-view="insights" onclick="showView('insights')"><span class="navicon">⌁</span>INSIGHT</button>
+</div></div>
+<div id="toast" class="toast"></div>
+<script>
+const KEY='stillDietApp.v1';
+let db=loadDB(), filter='all', activeForm='meal';
+function loadDB(){try{return JSON.parse(localStorage.getItem(KEY))||{meals:[],weights:[],exercises:[],weekly:{}}}catch(e){return {meals:[],weights:[],exercises:[],weekly:{}}}}
+function saveDB(){localStorage.setItem(KEY,JSON.stringify(db));renderAll()}
+function isoToday(){let d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
+function fmtDate(s){if(!s)return '';let d=new Date(s+'T12:00:00');return `${d.getMonth()+1}/${d.getDate()}`}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function allItems(){return [...db.meals.map(x=>({...x,kind:'meal'})),...db.weights.map(x=>({...x,kind:'weight'})),...db.exercises.map(x=>({...x,kind:'exercise'}))].sort((a,b)=>(b.date||'').localeCompare(a.date||'')||(b.created||0)-(a.created||0))}
+function showView(v){['home','log','insights'].forEach(x=>document.getElementById('view-'+x).classList.toggle('hidden',x!==v));document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.view===v));if(v==='insights')renderInsights();if(v==='log')renderEntries()}
+function openForm(kind){showView('log');activeForm=kind;['meal','weight','exercise'].forEach(k=>{document.getElementById('form-'+k).classList.toggle('hidden',k!==kind);document.querySelectorAll('[data-formtab]').forEach(b=>b.classList.toggle('active',b.dataset.formtab===kind))});window.scrollTo({top:0,behavior:'smooth'})}
+function setFilter(f){filter=f;document.querySelectorAll('[data-filter]').forEach(b=>b.classList.toggle('active',b.dataset.filter===f));renderEntries()}
+function getFormData(form){return Object.fromEntries(new FormData(form).entries())}
+['meal','weight','exercise'].forEach(kind=>{let f=document.getElementById(kind+'Form');f.elements.date.value=isoToday();f.addEventListener('submit',e=>{e.preventDefault();let d=getFormData(f);d.created=Date.now();if(kind==='meal'){db.meals.push(d)}else if(kind==='weight'){db.weights.push(d)}else{db.exercises.push(d)}f.reset();f.elements.date.value=isoToday();toast('記録を保存しました');saveDB();showView('log');openForm(kind)})});
+function removeItem(kind,id){let arr=db[kind];let i=arr.findIndex(x=>String(x.created)===String(id));if(i>=0){arr.splice(i,1);saveDB();toast('記録を削除しました')}}
+function entryHTML(x){let kind=x.kind, title='',meta='',val='',icon='·',key=kind==='meal'?'meals':kind==='weight'?'weights':'exercises';
+if(kind==='meal'){title=`${x.type||'食事'}：${x.food}`;meta=[x.calories?x.calories+' kcal':'',x.protein?x.protein+' g protein':'',x.hunger,x.mood,x.note].filter(Boolean).join(' · ');val='食事';icon='＋'}
+if(kind==='weight'){title=`体重 ${x.weight} kg`;meta=[x.waist?`ウエスト ${x.waist} cm`:'',x.timing,x.note].filter(Boolean).join(' · ');val='BODY';icon='↗'}
+if(kind==='exercise'){title=`${x.type||'運動'}${x.minutes?' · '+x.minutes+'分':''}`;meta=[x.intensity,x.note].filter(Boolean).join(' · ');val='MOVE';icon='⌁'}
+return `<div class="entry"><div class="entry-icon">${icon}</div><div class="entry-body"><div class="entry-title">${esc(title)}</div><div class="entry-meta">${fmtDate(x.date)}${meta?'　·　'+esc(meta):''}</div></div><div class="entry-value">${val}</div><button class="entry-del" aria-label="削除" onclick="removeItem('${key}','${x.created}')">×</button></div>`}
+function renderEntries(){let all=allItems();let today=all.filter(x=>x.date===isoToday());document.getElementById('todayEntries').innerHTML=today.length?today.map(entryHTML).join(''):'<div class="empty">今日の記録はまだありません。<br>小さなことから残してみよう。</div>';document.getElementById('todayCount').textContent=`${today.length} ENTRIES`;let filtered=filter==='all'?all:all.filter(x=>x.kind===filter);document.getElementById('allEntries').innerHTML=filtered.length?filtered.map(entryHTML).join(''):'<div class="empty">まだ記録がありません。<br>最初のひとつから始めよう。</div>'}
+function drawChart(canvasId,items,key,color,unit){let c=document.getElementById(canvasId);if(!c)return;let ctx=c.getContext('2d'),w=c.width,h=c.height;ctx.clearRect(0,0,w,h);let pad={l:38,r:16,t:18,b:30};ctx.font='11px -apple-system, sans-serif';ctx.fillStyle='#8b929b';ctx.strokeStyle='#2d333b';ctx.lineWidth=1;for(let i=0;i<4;i++){let y=pad.t+(h-pad.t-pad.b)*i/3;ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(w-pad.r,y);ctx.stroke()}
+let valid=items.filter(x=>x[key]!==''&&x[key]!=null&&isFinite(Number(x[key]))).sort((a,b)=>a.date.localeCompare(b.date)).slice(-10);if(!valid.length){ctx.fillStyle='#7f8791';ctx.textAlign='center';ctx.fillText('記録が増えると、ここに推移が表示されます',w/2,h/2);return}
+let vals=valid.map(x=>Number(x[key])),min=Math.min(...vals),max=Math.max(...vals);if(max===min){max+=.5;min-=.5}let yMin=min-(max-min)*.15,yMax=max+(max-min)*.15;let X=i=>pad.l+(w-pad.l-pad.r)*(valid.length===1?.5:i/(valid.length-1)),Y=v=>pad.t+(h-pad.t-pad.b)*(1-(v-yMin)/(yMax-yMin));
+ctx.textAlign='right';ctx.fillStyle='#858d96';for(let i=0;i<4;i++){let v=yMax-(yMax-yMin)*i/3;ctx.fillText(v.toFixed(1),pad.l-8,pad.t+(h-pad.t-pad.b)*i/3+4)}
+ctx.strokeStyle=color;ctx.lineWidth=2.5;ctx.beginPath();valid.forEach((x,i)=>{if(i===0)ctx.moveTo(X(i),Y(Number(x[key])));else ctx.lineTo(X(i),Y(Number(x[key])))});ctx.stroke();valid.forEach((x,i)=>{ctx.beginPath();ctx.arc(X(i),Y(Number(x[key])),4,0,Math.PI*2);ctx.fillStyle=color;ctx.fill();ctx.strokeStyle='#171a20';ctx.lineWidth=2;ctx.stroke()});
+ctx.textAlign='center';ctx.fillStyle='#8b929b';valid.forEach((x,i)=>{if(valid.length<=6||i===0||i===valid.length-1||i%2===0)ctx.fillText(fmtDate(x.date),X(i),h-9)});}
+function renderInsights(){drawChart('weightChart',db.weights,'weight','#91adc4','kg');drawChart('waistChart',db.weights,'waist','#a77a8a','cm');let w=db.weights.filter(x=>x.weight).sort((a,b)=>a.date.localeCompare(b.date));document.getElementById('weightSummary').textContent=w.length?`記録 ${w.length} 回 · 最新 ${w[w.length-1].weight} kg · 数字の上下には水分や食事なども影響します。`:'体重を記録すると、ここに要約が表示されます。';let wa=db.weights.filter(x=>x.waist).sort((a,b)=>a.date.localeCompare(b.date));document.getElementById('waistSummary').textContent=wa.length?`ウエスト記録 ${wa.length} 回 · 最新 ${wa[wa.length-1].waist} cm`:'ウエストは測った日だけでOK。記録しなくても大丈夫。';
+let d=new Date();let day=(d.getDay()+6)%7;let start=new Date(d);start.setDate(d.getDate()-day);let s=`${start.getFullYear()}-${String(start.getMonth()+1).padStart(2,'0')}-${String(start.getDate()).padStart(2,'0')}`;document.getElementById('weekMeals').innerHTML=db.meals.filter(x=>x.date>=s&&x.date<=isoToday()).length+'<span class="unit">件</span>';document.getElementById('weekExercise').innerHTML=db.exercises.filter(x=>x.date>=s&&x.date<=isoToday()).length+'<span class="unit">回</span>';document.getElementById('weeklyNote').value=db.weekly[s]||'';document.getElementById('weeklySaved').textContent=db.weekly[s]?'今週の振り返りを保存済みです。':''}
+function saveWeekly(){let d=new Date(),day=(d.getDay()+6)%7;d.setDate(d.getDate()-day);let s=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;db.weekly[s]=document.getElementById('weeklyNote').value;localStorage.setItem(KEY,JSON.stringify(db));document.getElementById('weeklySaved').textContent='保存しました。今週の自分に、おつかれさま。';toast('振り返りを保存しました')}
+function renderAll(){document.getElementById('today').textContent=new Date().toLocaleDateString('ja-JP',{month:'long',day:'numeric',weekday:'short'});let w=db.weights.filter(x=>x.weight).sort((a,b)=>b.date.localeCompare(a.date)||b.created-a.created);document.getElementById('heroWeight').textContent=w.length?Number(w[0].weight).toFixed(1):'--.-';document.getElementById('heroNote').textContent=w.length?`LATEST · ${fmtDate(w[0].date)}　焦らず、自分のペースで。`:'記録は、あなたのペースで。';document.getElementById('weightCount').innerHTML=db.weights.length+'<span class="unit">回</span>';document.getElementById('mealCount').innerHTML=db.meals.filter(x=>x.date===isoToday()).length+'<span class="unit">件</span>';renderEntries();drawChart('homeChart',db.weights,'weight','#91adc4','kg');document.getElementById('chartHint').textContent=w.length?'直近の記録を表示しています。日々の変動より、長い目で見てみよう。':'体重を記録すると、ここに推移が表示されます。';if(!document.getElementById('view-insights').classList.contains('hidden'))renderInsights()}
+function toast(msg){let t=document.getElementById('toast');t.textContent=msg;t.style.display='block';clearTimeout(window._toast);window._toast=setTimeout(()=>t.style.display='none',2200)}
+function exportData(){let blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='still-diet-backup-'+isoToday()+'.json';a.click();URL.revokeObjectURL(a.href)}
+function importData(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let d=JSON.parse(r.result);if(!d.meals||!d.weights||!d.exercises)throw Error();if(confirm('現在の記録をバックアップデータで置き換えますか？')){db=d;saveDB();toast('データを復元しました')}}catch(err){alert('このバックアップファイルは読み込めませんでした。')}e.target.value=''};r.readAsText(f)}
+renderAll();
+if ('serviceWorker' in navigator && location.protocol.startsWith('http')) { window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{})); }
+</script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+{
+  "name": "STILL — my personal log",
+  "short_name": "STILL",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#101216",
+  "theme_color": "#101216",
+  "description": "自分のペースで続ける食事・体重・運動ログ"
+}
